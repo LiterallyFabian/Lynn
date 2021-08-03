@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import java.util.Iterator;
 
 public class Lynn extends ApplicationAdapter {
@@ -27,7 +28,8 @@ public class Lynn extends ApplicationAdapter {
 
     private Rectangle catcher;
 
-    private float catcherSpeed = 400;
+    private float catcherSpeed = 800;
+    private float fruitSpeed = 600;
 
     private Array<Rectangle> fruits = new Array<Rectangle>();
 
@@ -42,25 +44,25 @@ public class Lynn extends ApplicationAdapter {
         music.play();
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1920, 1080);
 
         batch = new SpriteBatch();
 
         catcher = new Rectangle();
-        catcher.x = 800 / 2 - 64 / 2;
-        catcher.y = 20;
-        catcher.width = 64;
-        catcher.height = 76;
+        catcher.width = 1031/5;
+        catcher.height = 1218/5;
+        catcher.x = Gdx.graphics.getWidth() / 2 - catcher.width / 2;
+        catcher.y = 0;
 
         spawnFruit();
     }
 
     private void spawnFruit() {
         Rectangle fruit = new Rectangle();
-        fruit.x = MathUtils.random(0, 800 - 64);
-        fruit.y = 480;
-        fruit.width = 64;
-        fruit.height = 64;
+        fruit.x = MathUtils.random(0, 1920 - catcher.width);
+        fruit.y = 1080;
+        fruit.width = 88;
+        fruit.height = 88;
         fruits.add(fruit);
     }
 
@@ -71,17 +73,11 @@ public class Lynn extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(catcherTexture, catcher.x, catcher.y, catcher.width, catcher.height);
-        for (Rectangle raindrop : fruits) {
-            batch.draw(fruitTexture, raindrop.x, raindrop.y, 64, 64);
+        for (Rectangle fruit : fruits) {
+            batch.draw(fruitTexture, fruit.x, fruit.y, fruit.width, fruit.height);
         }
         batch.end();
 
-        if (Gdx.input.isTouched()) {
-            Vector3 touchPos = new Vector3();
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
-            catcher.x = touchPos.x - 64 / 2;
-        }
         int speedModifier = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 2 : 1;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
             catcher.x -= catcherSpeed * speedModifier * Gdx.graphics.getDeltaTime();
@@ -89,12 +85,12 @@ public class Lynn extends ApplicationAdapter {
             catcher.x += catcherSpeed * speedModifier * Gdx.graphics.getDeltaTime();
 
         if (catcher.x < 0) catcher.x = 0;
-        if (catcher.x > 800 - 64) catcher.x = 800 - 64;
+        if (catcher.x > Gdx.graphics.getWidth() - catcher.width) catcher.x = Gdx.graphics.getWidth() - catcher.width;
 
         for (Iterator<Rectangle> iter = fruits.iterator(); iter.hasNext(); ) {
             Rectangle fruit = iter.next();
-            fruit.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (fruit.y + 64 < 0) iter.remove();
+            fruit.y -= fruitSpeed * Gdx.graphics.getDeltaTime();
+            if (fruit.y + fruit.height < 0) iter.remove();
             if (fruit.overlaps(catcher)) {
                 hitsound.play();
                 iter.remove();
