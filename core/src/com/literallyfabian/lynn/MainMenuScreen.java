@@ -10,8 +10,8 @@ public class MainMenuScreen implements Screen {
     final Lynn game;
     OrthographicCamera camera;
 
-    public MainMenuScreen(final Lynn gam) {
-        game = gam;
+    public MainMenuScreen(final Lynn game) {
+        this.game = game;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
