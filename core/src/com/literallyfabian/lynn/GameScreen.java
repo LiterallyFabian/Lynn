@@ -2,6 +2,7 @@ package com.literallyfabian.lynn;
 
 import java.time.Instant;
 import java.util.Iterator;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
     float catcherSpeed = 800;
     float fruitSpeed = 600;
 
-    Array<Rectangle> spawnedFruitObjects = new Array<>();
+    Array<Fruit> spawnedFruits = new Array<>();
 
     public GameScreen(final Lynn game, Beatmap beatmap) {
         this.game = game;
@@ -81,13 +82,18 @@ public class GameScreen implements Screen {
     }
 
     private void spawnFruit(Fruit fruit) {
-        Rectangle fruitObj = new Rectangle();
+        fruit.obj = new Rectangle();
+        fruit.obj.x = fruit.x;
+        fruit.obj.y = 1080;
+        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 44 : 88;
+        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 44 : 88;
+        if (fruit.size == Fruit.Size.FRUIT) {
+            fruit.texture = fruitTextures.get(ThreadLocalRandom.current().nextInt(0, fruitTextures.size));
+        } else if (fruit.size == Fruit.Size.DROPLET) {
+            fruit.texture = dropletTexture;
+        }
 
-        fruitObj.x = fruit.x;
-        fruitObj.y = 1080;
-        fruitObj.width = 88;
-        fruitObj.height = 88;
-        spawnedFruitObjects.add(fruitObj);
+        spawnedFruits.add(fruit);
     }
 
     @Override
@@ -97,8 +103,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(catcherTexture, catcher.x, catcher.y, catcher.width, catcher.height);
-        for (Rectangle fruit : spawnedFruitObjects) {
-            game.batch.draw(fruitTextures.get(0), fruit.x, fruit.y, fruit.width, fruit.height);
+        for (Fruit fruit : spawnedFruits) {
+            game.batch.draw(fruit.texture, fruit.obj.x, fruit.obj.y, fruit.obj.width, fruit.obj.height);
         }
         game.batch.end();
 
@@ -111,8 +117,8 @@ public class GameScreen implements Screen {
         if (catcher.x < 0) catcher.x = 0;
         if (catcher.x > Gdx.graphics.getWidth() - catcher.width) catcher.x = Gdx.graphics.getWidth() - catcher.width;
 
-        for (Iterator<Rectangle> iter = spawnedFruitObjects.iterator(); iter.hasNext(); ) {
-            Rectangle fruit = iter.next();
+        for (Iterator<Fruit> iter = spawnedFruits.iterator(); iter.hasNext(); ) {
+            Rectangle fruit = iter.next().obj;
             fruit.y -= fruitSpeed * Gdx.graphics.getDeltaTime();
             if (fruit.y + fruit.height < 0) iter.remove();
             if (fruit.overlaps(catcher)) {

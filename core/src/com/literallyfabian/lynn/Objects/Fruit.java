@@ -1,14 +1,12 @@
 package com.literallyfabian.lynn.Objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 public final class Fruit {
     public float x;
@@ -17,6 +15,8 @@ public final class Fruit {
     public int hitsound;
     public boolean hyper = false;
     public Size size;
+    public Rectangle obj;
+    public Texture texture;
 
     public enum Size {
         FRUIT,
