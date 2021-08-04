@@ -5,8 +5,10 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class Fruit {
     public float x;
@@ -65,8 +67,14 @@ public final class Fruit {
                 fruits.add(new Fruit(position, time, Size.FRUIT, overrideHitsounds ? sliderHitsounds.get(currentHitsound++) : defaultHitsound));
 
                 //Set beatlength
-                List<TimingPoint> timing = Arrays.stream(timingPoints.items).filter(x -> x.time < time).collect(Collectors.toList());
-                if (timing.size() > 0) beatLength = timing.get(timing.size() - 1).value;
+                TimingPoint timingPoint = null;
+                for (TimingPoint timing : timingPoints) {
+                    if (timingPoint != null) {
+                        if (timing.time > time) timingPoint = timing;
+                        else break;
+                    } else timingPoint = timing;
+                }
+                beatLength = timingPoint.value;
 
                 String[] sliderPositions = data[5].split("\\|");
                 float sliderEndPosition = Integer.parseInt(sliderPositions[sliderPositions.length - 1].split(":")[0]);
