@@ -37,7 +37,7 @@ public class GameScreen implements Screen {
      float catcherSpeed = 800;
      float fruitSpeed = 600;
 
-     Array<Rectangle> fruits = new Array<Rectangle>();
+     Array<Rectangle> fruits = new Array<>();
 
     public GameScreen(final Lynn game) {
         this.game = game;
@@ -54,9 +54,9 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         catcher = new Rectangle();
-        catcher.width = 1031/5;
-        catcher.height = 1218/5;
-        catcher.x = Gdx.graphics.getWidth() / 2 - catcher.width / 2;
+        catcher.width = 1031f/5;
+        catcher.height = 1218f/5;
+        catcher.x = Gdx.graphics.getWidth() / 2f - catcher.width / 2f;
         catcher.y = 0;
 
         spawnFruit();
