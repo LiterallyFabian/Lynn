@@ -2,7 +2,6 @@ package com.literallyfabian.lynn.Objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import jdk.nashorn.internal.runtime.Timing;
 
 import java.util.Arrays;
 import java.util.List;
