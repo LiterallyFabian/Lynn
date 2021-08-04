@@ -1,5 +1,6 @@
 package com.literallyfabian.lynn.Objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
@@ -8,7 +9,7 @@ import java.io.*;
 
 public class Beatmap {
     //General
-    public SampleSet sample = SampleSet.Normal;
+    public SampleSet sample = SampleSet.normal;
     public Music music;
     public Array<Sound> hitsounds = new Array<>();
 
@@ -36,9 +37,9 @@ public class Beatmap {
     public Array<String> fruitLines = new Array<>();
 
     public enum SampleSet {
-        Normal,
-        Soft,
-        Drum
+        normal,
+        soft,
+        drum
     }
 
     public Beatmap(String id) {
@@ -50,8 +51,8 @@ public class Beatmap {
         try (BufferedReader br = new BufferedReader(new FileReader("beatmaps/" + id + ".osu"))) {
             for (String line; (line = br.readLine()) != null; ) {
                 if (!foundTiming) {
-                    if (line.contains("SampleSet: Soft")) this.sample = SampleSet.Soft;
-                    else if (line.contains("SampleSet: Drum")) this.sample = SampleSet.Drum;
+                    if (line.contains("SampleSet: Soft")) this.sample = SampleSet.soft;
+                    else if (line.contains("SampleSet: Drum")) this.sample = SampleSet.drum;
                     else if (line.contains("Title:")) this.title = GetValue(line);
                     else if (line.contains("Artist:")) this.artist = GetValue(line);
                     else if (line.contains("Creator:")) this.creator = GetValue(line);
@@ -75,6 +76,11 @@ public class Beatmap {
         this.bpm = 1 / beatLength * 1000 * 60;
         this.timingPoints = TimingPoint.ConvertPoints(timingLines);
         this.fruits = Fruit.ConvertFruits(fruitLines, timingPoints, sliderMultiplier);
+        this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitnormal.mp3")));
+        this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitwhistle.mp3")));
+        this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitfinish.mp3")));
+        this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitclap.mp3")));
+        this.music = Gdx.audio.newMusic(Gdx.files.internal("beatmaps/" + id + ".mp3"));
     }
 
     private static String GetValue(String line) {
