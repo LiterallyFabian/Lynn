@@ -28,11 +28,11 @@ public class Beatmap {
 
     //TimingPoints
     public float bpm;
-    public Array<TimingPoint> timingPoints = new Array<>();
+    public Array<TimingPoint> timingPoints;
     public Array<String> timingLines = new Array<>();
 
     //HitObjects
-    public Array<Fruit> fruits = new Array<>();
+    public Array<Fruit> fruits;
     public Array<String> fruitLines = new Array<>();
 
     public enum SampleSet {
