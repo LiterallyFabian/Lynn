@@ -96,7 +96,7 @@ public final class Fruit {
                         fruits.add(new Fruit(dropletPos, dropletDelay, Size.FRUIT, overrideHitsounds ? sliderHitsounds.get(currentHitsound++) : defaultHitsound));
                         currentDroplet = 0;
                     } else {
-                        fruits.add(new Fruit(dropletPos, dropletDelay, Size.DROPLET, 0));
+                        fruits.add(new Fruit(dropletPos, dropletDelay, Size.DROPLET, -1));
                         currentDroplet++;
                     }
                 }
