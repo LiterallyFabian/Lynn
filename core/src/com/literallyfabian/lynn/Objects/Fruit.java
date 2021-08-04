@@ -31,7 +31,7 @@ public final class Fruit {
      * @param hitsound The hitsound(s) this fruit should play upon being caught
      */
     private Fruit(float x, float delay, Size size, int hitsound) {
-        this.x = Gdx.graphics.getWidth() / 512 * x;
+        this.x = (Gdx.graphics.getWidth() * 0.75f) / 512 * x + (Gdx.graphics.getWidth() * 0.125f);
         this.delay = delay;
         this.size = size;
         this.hitsound = hitsound;
