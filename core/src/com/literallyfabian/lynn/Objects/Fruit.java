@@ -88,12 +88,16 @@ public final class Fruit {
                         fruits.add(new Fruit(dropletPos, dropletDelay, Size.FRUIT, overrideHitsounds ? sliderHitsounds.get(currentHitsound++) : defaultHitsound));
                         currentDroplet = 0;
                     } else {
-                        fruits.add(new Fruit(dropletPos, dropletDelay, Size.FRUIT, 0));
+                        fruits.add(new Fruit(dropletPos, dropletDelay, Size.DROPLET, 0));
                         currentDroplet++;
                     }
                 }
 
                 fruits.add(new Fruit(sliderEndPosition, time + totalDroplets * timeDiff, Size.FRUIT, overrideHitsounds ? sliderHitsounds.get(currentHitsound++) : defaultHitsound));
+
+                //This line holds a normal fruit
+            } else if (!data[3].equals("12")) {
+                fruits.add(new Fruit(position, time, Size.FRUIT, defaultHitsound));
             }
         }
         return fruits;
