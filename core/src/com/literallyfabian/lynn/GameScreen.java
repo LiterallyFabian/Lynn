@@ -95,6 +95,9 @@ public class GameScreen implements Screen {
         } else if (fruit.size == Fruit.Size.DROPLET) {
             fruit.texture = dropletTexture;
         }
+        else if (fruit.size == Fruit.Size.BANANA) {
+            fruit.texture = bananaTexture;
+        }
 
         spawnedFruits.add(fruit);
     }
