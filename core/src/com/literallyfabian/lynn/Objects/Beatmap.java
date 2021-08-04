@@ -3,6 +3,7 @@ package com.literallyfabian.lynn.Objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 
 import java.io.*;
@@ -12,6 +13,7 @@ public class Beatmap {
     public SampleSet sample = SampleSet.normal;
     public Music music;
     public Array<Sound> hitsounds = new Array<>();
+    public Texture background;
 
     //Metadata
     public String title;
@@ -81,6 +83,7 @@ public class Beatmap {
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitfinish.mp3")));
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitclap.mp3")));
         this.music = Gdx.audio.newMusic(Gdx.files.internal("beatmaps/" + id + ".mp3"));
+        this.background=  new Texture("beatmaps/" + id + ".jpg");
     }
 
     private static String GetValue(String line) {
