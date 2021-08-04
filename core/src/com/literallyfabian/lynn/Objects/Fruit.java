@@ -114,7 +114,7 @@ public final class Fruit {
                 //Queue lots of bananas with 60ms delay
                 for (int i = time; i < stopTime; i += 60) {
                     int pos = ThreadLocalRandom.current().nextInt(0, 512 + 1);
-                    fruits.add(new Fruit(pos, i, Size.BANANA, 0));
+                    fruits.add(new Fruit(pos, i, Size.BANANA, -1));
                 }
             }
         }
