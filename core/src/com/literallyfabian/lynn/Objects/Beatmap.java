@@ -76,8 +76,10 @@ public class Beatmap {
         }
         this.beatLength = Float.parseFloat(timingLines.get(0).split(",")[1]);
         this.bpm = 1 / beatLength * 1000 * 60;
+
         this.timingPoints = TimingPoint.ConvertPoints(timingLines);
         this.fruits = Fruit.ConvertFruits(fruitLines, timingPoints, sliderMultiplier);
+
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitnormal.mp3")));
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitwhistle.mp3")));
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitfinish.mp3")));

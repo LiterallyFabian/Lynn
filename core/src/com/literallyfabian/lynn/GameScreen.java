@@ -1,5 +1,6 @@
 package com.literallyfabian.lynn;
 
+import java.time.Instant;
 import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -17,36 +18,44 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-
+import com.literallyfabian.lynn.Objects.Beatmap;
+import com.literallyfabian.lynn.Objects.Fruit;
 
 
 public class GameScreen implements Screen {
 
     final Lynn game;
 
-    Texture fruitTexture;
+    Array<Texture> fruitTextures = new Array<>();
+    Texture dropletTexture;
+    Texture bananaTexture;
     Texture catcherTexture;
     Sound hitsound;
-     Music music;
+    Music music;
 
-     OrthographicCamera camera;
-     SpriteBatch batch;
+    OrthographicCamera camera;
+    SpriteBatch batch;
 
-     Rectangle catcher;
+    Rectangle catcher;
 
-     float catcherSpeed = 800;
-     float fruitSpeed = 600;
+    float catcherSpeed = 800;
+    float fruitSpeed = 600;
 
-     Array<Rectangle> fruits = new Array<>();
+    Array<Rectangle> spawnedFruitObjects = new Array<>();
 
-    public GameScreen(final Lynn game) {
+    public GameScreen(final Lynn game, Beatmap beatmap) {
         this.game = game;
 
-        fruitTexture = new Texture("images/apple.png");
+        fruitTextures.add(new Texture("images/orange.png"));
+        fruitTextures.add(new Texture("images/grape.png"));
+        fruitTextures.add(new Texture("images/pear.png"));
+        fruitTextures.add(new Texture("images/apple.png"));
+        bananaTexture = new Texture("images/banana.png");
+        dropletTexture = new Texture("images/droplet.png");
         catcherTexture = new Texture("images/catcher-idle.png");
 
-        hitsound = Gdx.audio.newSound(Gdx.files.internal("hitsounds/normal-hitnormal.mp3"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("beatmaps/all about us.mp3"));
+        music = beatmap.music;
+        hitsound = beatmap.hitsounds.get(0);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
@@ -54,21 +63,31 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         catcher = new Rectangle();
-        catcher.width = 1031f/5;
-        catcher.height = 1218f/5;
+        catcher.width = 1031f / 5;
+        catcher.height = 1218f / 5;
         catcher.x = Gdx.graphics.getWidth() / 2f - catcher.width / 2f;
         catcher.y = 0;
-
-        spawnFruit();
+        for (Fruit fruit : beatmap.fruits) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            spawnFruit(fruit);
+                        }
+                    },
+                    (long) fruit.delay
+            );
+        }
     }
 
-    private void spawnFruit() {
-        Rectangle fruit = new Rectangle();
-        fruit.x = MathUtils.random(0, 1920 - catcher.width);
-        fruit.y = 1080;
-        fruit.width = 88;
-        fruit.height = 88;
-        fruits.add(fruit);
+    private void spawnFruit(Fruit fruit) {
+        Rectangle fruitObj = new Rectangle();
+
+        fruitObj.x = fruit.x;
+        fruitObj.y = 1080;
+        fruitObj.width = 88;
+        fruitObj.height = 88;
+        spawnedFruitObjects.add(fruitObj);
     }
 
     @Override
@@ -78,8 +97,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(catcherTexture, catcher.x, catcher.y, catcher.width, catcher.height);
-        for (Rectangle fruit : fruits) {
-            game.batch.draw(fruitTexture, fruit.x, fruit.y, fruit.width, fruit.height);
+        for (Rectangle fruit : spawnedFruitObjects) {
+            game.batch.draw(fruitTextures.get(0), fruit.x, fruit.y, fruit.width, fruit.height);
         }
         game.batch.end();
 
@@ -92,7 +111,7 @@ public class GameScreen implements Screen {
         if (catcher.x < 0) catcher.x = 0;
         if (catcher.x > Gdx.graphics.getWidth() - catcher.width) catcher.x = Gdx.graphics.getWidth() - catcher.width;
 
-        for (Iterator<Rectangle> iter = fruits.iterator(); iter.hasNext(); ) {
+        for (Iterator<Rectangle> iter = spawnedFruitObjects.iterator(); iter.hasNext(); ) {
             Rectangle fruit = iter.next();
             fruit.y -= fruitSpeed * Gdx.graphics.getDeltaTime();
             if (fruit.y + fruit.height < 0) iter.remove();
@@ -106,7 +125,16 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        music.play();
+
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        music.play();
+                    }
+                },
+                1408 //time for objects to fall from sky to plate
+        );
     }
 
 
@@ -132,7 +160,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        fruitTexture.dispose();
         catcherTexture.dispose();
         hitsound.dispose();
         music.dispose();
