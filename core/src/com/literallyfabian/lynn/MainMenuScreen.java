@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.literallyfabian.lynn.Objects.Beatmap;
 
 public class MainMenuScreen implements Screen {
 
@@ -15,6 +16,7 @@ public class MainMenuScreen implements Screen {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1920, 1080);
+        Beatmap hi = new Beatmap("all about us");
     }
 
     @Override
