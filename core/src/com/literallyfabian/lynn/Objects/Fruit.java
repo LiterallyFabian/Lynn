@@ -118,6 +118,21 @@ public final class Fruit {
                 }
             }
         }
+        return CalculateHyperfruits(fruits);
+    }
+
+    private static Array<Fruit> CalculateHyperfruits(Array<Fruit> fruits) {
+        for (int i = 0; i < fruits.size - 1; i++) {
+            Fruit thisFruit = fruits.get(i);
+            Fruit nextFruit = fruits.get(i + 1);
+            if (thisFruit.size == Size.FRUIT && nextFruit.size == Size.FRUIT) {
+                float distance = Math.abs(nextFruit.x - thisFruit.x);
+                float time = nextFruit.delay - thisFruit.delay;
+                float difficulty = distance / time;
+                thisFruit.hyper = difficulty > 1 && distance > 100;
+                fruits.set(i, thisFruit);
+            }
+        }
         return fruits;
     }
 }
