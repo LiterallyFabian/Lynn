@@ -1,4 +1,4 @@
-package com.literallyfabian.lynn;
+package com.literallyfabian.lynn.Objects;
 
 public final class Fruit {
     public int x;
