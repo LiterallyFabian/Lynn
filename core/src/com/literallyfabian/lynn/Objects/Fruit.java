@@ -6,6 +6,7 @@ import jdk.nashorn.internal.runtime.Timing;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public final class Fruit {
@@ -98,6 +99,16 @@ public final class Fruit {
                 //This line holds a normal fruit
             } else if (!data[3].equals("12")) {
                 fruits.add(new Fruit(position, time, Size.FRUIT, defaultHitsound));
+                
+
+                //This line holds a banana shower
+            } else {
+                int stopTime = Integer.parseInt(data[5]);
+                //Queue lots of bananas with 60ms delay
+                for (int i = time; i < stopTime; i += 60) {
+                    int pos = ThreadLocalRandom.current().nextInt(0, 512 + 1);
+                    fruits.add(new Fruit(pos, i, Size.BANANA, 0));
+                }
             }
         }
         return fruits;
