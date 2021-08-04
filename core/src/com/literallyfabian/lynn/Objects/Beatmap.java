@@ -71,9 +71,10 @@ public class Beatmap {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.beatLength = Float.parseFloat(this.timingLines.get(0).split(",")[1]);
-        this.bpm = 1 / this.beatLength * 1000 * 60;
-        this.timingPoints = TimingPoint.ConvertPoints(this.timingLines);
+        this.beatLength = Float.parseFloat(timingLines.get(0).split(",")[1]);
+        this.bpm = 1 / beatLength * 1000 * 60;
+        this.timingPoints = TimingPoint.ConvertPoints(timingLines);
+        this.fruits = Fruit.ConvertFruits(fruitLines, timingPoints, sliderMultiplier);
     }
 
     private static String GetValue(String line) {
