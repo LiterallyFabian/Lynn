@@ -99,7 +99,7 @@ public final class Fruit {
                 //This line holds a normal fruit
             } else if (!data[3].equals("12")) {
                 fruits.add(new Fruit(position, time, Size.FRUIT, defaultHitsound));
-                
+
 
                 //This line holds a banana shower
             } else {
