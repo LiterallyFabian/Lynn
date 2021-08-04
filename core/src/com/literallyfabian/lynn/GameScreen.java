@@ -42,10 +42,13 @@ public class GameScreen implements Screen {
     float catcherSpeed = 800;
     float fruitSpeed = 600;
 
+    Beatmap beatmap;
+
     Array<Fruit> spawnedFruits = new Array<>();
 
     public GameScreen(final Lynn game, Beatmap beatmap) {
         this.game = game;
+        this.beatmap = beatmap;
 
         fruitTextures.add(new Texture("images/orange.png"));
         fruitTextures.add(new Texture("images/grape.png"));
@@ -85,8 +88,8 @@ public class GameScreen implements Screen {
         fruit.obj = new Rectangle();
         fruit.obj.x = fruit.x;
         fruit.obj.y = 1080;
-        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 44 : 88;
-        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 44 : 88;
+        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 41 : 88;
+        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 51 : 88;
         if (fruit.size == Fruit.Size.FRUIT) {
             fruit.texture = fruitTextures.get(ThreadLocalRandom.current().nextInt(0, fruitTextures.size));
         } else if (fruit.size == Fruit.Size.DROPLET) {
@@ -118,15 +121,26 @@ public class GameScreen implements Screen {
         if (catcher.x > Gdx.graphics.getWidth() - catcher.width) catcher.x = Gdx.graphics.getWidth() - catcher.width;
 
         for (Iterator<Fruit> iter = spawnedFruits.iterator(); iter.hasNext(); ) {
-            Rectangle fruit = iter.next().obj;
-            fruit.y -= fruitSpeed * Gdx.graphics.getDeltaTime();
-            if (fruit.y + fruit.height < 0) iter.remove();
-            if (fruit.overlaps(catcher)) {
-                hitsound.play();
+            Fruit fruit = iter.next();
+            fruit.obj.y -= fruitSpeed * Gdx.graphics.getDeltaTime();
+            if (fruit.obj.y + fruit.obj.height < 0) iter.remove();
+            if (fruit.obj.overlaps(catcher)) {
+                PlayHitsound(fruit.hitsound);
                 iter.remove();
             }
         }
 
+    }
+
+    private void PlayHitsound(int id) {
+        if (id == 8 || id == 10 || id == 12 || id == 14)
+            beatmap.hitsounds.get(3).play();
+        if (id == 4 || id == 6 || id == 12 || id == 14)
+            beatmap.hitsounds.get(2).play();
+        if (id == 2 || id == 6 || id == 10 || id == 14)
+            beatmap.hitsounds.get(1).play();
+        if (id == 0)
+            beatmap.hitsounds.get(0).play();
     }
 
     @Override
