@@ -50,12 +50,12 @@ public class GameScreen implements Screen {
         this.game = game;
         this.beatmap = beatmap;
 
-        fruitTextures.add(new Texture("images/orange.png"));
-        fruitTextures.add(new Texture("images/grape.png"));
-        fruitTextures.add(new Texture("images/pear.png"));
-        fruitTextures.add(new Texture("images/apple.png"));
-        bananaTexture = new Texture("images/banana.png");
-        dropletTexture = new Texture("images/droplet.png");
+        fruitTextures.add(new Texture("images/fruit-orange.png"));
+        fruitTextures.add(new Texture("images/fruit-grapes.png"));
+        fruitTextures.add(new Texture("images/fruit-pear.png"));
+        fruitTextures.add(new Texture("images/fruit-apple.png"));
+        bananaTexture = new Texture("images/fruit-bananas.png");
+        dropletTexture = new Texture("images/fruit-drop.png");
         catcherTexture = new Texture("images/catcher-idle.png");
 
         music = beatmap.music;
@@ -67,10 +67,10 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
 
         catcher = new Rectangle();
-        catcher.width = 1031f / 5;
-        catcher.height = 1218f / 5;
+        catcher.width = 1031f / 4;
+        catcher.height = 1218f / 4;
         catcher.x = Gdx.graphics.getWidth() / 2f - catcher.width / 2f;
-        catcher.y = 0;
+        catcher.y = -catcher.height/2;
         for (Fruit fruit : beatmap.fruits) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
@@ -88,8 +88,8 @@ public class GameScreen implements Screen {
         fruit.obj = new Rectangle();
         fruit.obj.x = fruit.x;
         fruit.obj.y = 1080;
-        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 41 : 88;
-        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 51 : 88;
+        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 88 : 190;
+        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 88 : 190;
         if (fruit.size == Fruit.Size.FRUIT) {
             fruit.texture = fruitTextures.get(ThreadLocalRandom.current().nextInt(0, fruitTextures.size));
         } else if (fruit.size == Fruit.Size.DROPLET) {
