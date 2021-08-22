@@ -89,7 +89,7 @@ public final class Fruit {
                 int currentDroplet = 0;
                 for (int i = 0; i < totalDroplets; i++) {
                     float dropletPos = position - (posDiff * i);
-                    float dropletDelay = time + timeDiff * i;
+                    float dropletDelay = time + timeDiff * (i + 1);
 
                     //maximum hit for this part - add a fruit and start over
                     if (currentDroplet == dropletsPerRepeat) {
