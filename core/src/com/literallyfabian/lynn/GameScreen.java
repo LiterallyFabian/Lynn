@@ -156,7 +156,7 @@ public class GameScreen implements Screen {
                         music.play();
                     }
                 },
-                1408 //time for objects to fall from sky to plate
+                1546 //time for objects to fall from sky to plate
         );
     }
 
