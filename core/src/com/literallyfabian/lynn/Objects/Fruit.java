@@ -31,10 +31,14 @@ public final class Fruit {
      * @param hitsound The hitsound(s) this fruit should play upon being caught
      */
     private Fruit(float x, float delay, Size size, int hitsound) {
+        //align fruit to 4:3 aspect ratio (12.5%-87.5% of screen)
         this.x = (Gdx.graphics.getWidth() * 0.75f) / 512 * x + (Gdx.graphics.getWidth() * 0.125f);
         this.delay = delay;
         this.size = size;
         this.hitsound = hitsound;
+
+        if (this.size != Size.DROPLET)
+            this.x -= 190 / 4;
     }
 
     /**
