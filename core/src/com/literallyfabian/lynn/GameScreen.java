@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
         catcher.width = 1031f / 4;
         catcher.height = 1218f / 4;
         catcher.x = Gdx.graphics.getWidth() / 2f - catcher.width / 2f;
-        catcher.y = -catcher.height/2;
+        catcher.y = -catcher.height / 2;
         for (Fruit fruit : beatmap.fruits) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
@@ -94,8 +94,7 @@ public class GameScreen implements Screen {
             fruit.texture = fruitTextures.get(ThreadLocalRandom.current().nextInt(0, fruitTextures.size));
         } else if (fruit.size == Fruit.Size.DROPLET) {
             fruit.texture = dropletTexture;
-        }
-        else if (fruit.size == Fruit.Size.BANANA) {
+        } else if (fruit.size == Fruit.Size.BANANA) {
             fruit.texture = bananaTexture;
         }
 

@@ -85,7 +85,7 @@ public class Beatmap {
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitfinish.mp3")));
         this.hitsounds.add(Gdx.audio.newSound(Gdx.files.internal("hitsounds/" + sample.name() + "-hitclap.mp3")));
         this.music = Gdx.audio.newMusic(Gdx.files.internal("beatmaps/" + id + ".mp3"));
-        this.background=  new Texture("beatmaps/" + id + ".jpg");
+        this.background = new Texture("beatmaps/" + id + ".jpg");
     }
 
     private static String GetValue(String line) {
