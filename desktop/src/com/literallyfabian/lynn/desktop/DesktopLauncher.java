@@ -14,6 +14,9 @@ public class DesktopLauncher {
 		config.addIcon("images/icon_128.png", Files.FileType.Internal);
 		config.addIcon("images/icon_32.png", Files.FileType.Internal);
 		config.addIcon("images/icon_16.png", Files.FileType.Internal);
+		config.vSyncEnabled = false; // Setting to false disables vertical sync
+		config.foregroundFPS = 0; // Setting to 0 disables foreground fps throttling
+		config.backgroundFPS = 0;
 		new LwjglApplication(new Lynn(), config);
 	}
 }
