@@ -88,8 +88,8 @@ public class GameScreen implements Screen {
         fruit.obj = new Rectangle();
         fruit.obj.x = fruit.x;
         fruit.obj.y = 1080;
-        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 88 : 190;
-        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 88 : 190;
+        fruit.obj.width = fruit.size == Fruit.Size.DROPLET ? 75 : 190;
+        fruit.obj.height = fruit.size == Fruit.Size.DROPLET ? 75 : 190;
         if (fruit.size == Fruit.Size.FRUIT) {
             fruit.texture = fruitTextures.get(ThreadLocalRandom.current().nextInt(0, fruitTextures.size));
         } else if (fruit.size == Fruit.Size.DROPLET) {
@@ -109,7 +109,12 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.draw(catcherTexture, catcher.x, catcher.y, catcher.width, catcher.height);
         for (Fruit fruit : spawnedFruits) {
-            game.batch.draw(fruit.texture, fruit.obj.x, fruit.obj.y, fruit.obj.width, fruit.obj.height);
+            if (fruit.size == Fruit.Size.DROPLET)
+                game.batch.draw(fruit.texture, fruit.obj.x, fruit.obj.y, fruit.obj.width, fruit.obj.height);
+        }
+        for (Fruit fruit : spawnedFruits) {
+            if (fruit.size != Fruit.Size.DROPLET)
+                game.batch.draw(fruit.texture, fruit.obj.x, fruit.obj.y, fruit.obj.width, fruit.obj.height);
         }
         game.batch.end();
 
