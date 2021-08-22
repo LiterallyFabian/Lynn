@@ -85,7 +85,7 @@ public final class Fruit {
                 int repeats = Integer.parseInt(data[6]);
                 float length = Float.parseFloat(data[7]);
                 float sliderLength = length / (sliderMultiplier * 100) * beatLength * repeats;
-                int dropletsPerRepeat = Math.round(length / 20);
+                int dropletsPerRepeat = Math.round(length / 30);
                 int totalDroplets = dropletsPerRepeat * repeats;
                 float timeDiff = sliderLength / totalDroplets;
                 float posDiff = (position - sliderEndPosition) / totalDroplets;
